@@ -11,7 +11,7 @@ namespace Capstone.DAL
     public class ParkSqlDAL
     {
         private string connectionString;
-        private const string SQL_ViewAvailableParks = "";
+        private const string SQL_ViewAvailableParks = "SELECT * FROM park";
 
         //constructor
         public ParkSqlDAL(string databaseconnectionString)
@@ -49,5 +49,7 @@ namespace Capstone.DAL
 
             return output;
         }
+
+
     }
 }

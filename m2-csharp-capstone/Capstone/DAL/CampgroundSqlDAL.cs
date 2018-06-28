@@ -49,6 +49,7 @@ namespace Capstone.DAL
                 Console.WriteLine(e.Message);
             }
 
+            output.Sort();
             return output;
         }
     }

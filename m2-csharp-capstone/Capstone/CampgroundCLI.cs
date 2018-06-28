@@ -11,6 +11,7 @@ namespace Capstone
     public class CampgroundCLI
     {
         const string Command_ViewParks = "1";
+        const string Command_ViewCampgrounds = "2";
         const string Command_Quit = "q";
         const string DatabaseConnectionString = @"";
 
@@ -28,6 +29,10 @@ namespace Capstone
                 {
                     case Command_ViewParks:
                         ViewAvailableParks();
+                        break;
+
+                    case Command_ViewCampgrounds:
+                        //ViewCampgrounds();
                         break;
 
                     case Command_Quit:

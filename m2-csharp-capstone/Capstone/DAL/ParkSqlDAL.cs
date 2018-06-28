@@ -44,6 +44,8 @@ namespace Capstone.DAL
             }
             catch (SqlException e)
             {
+                Console.WriteLine("There was an error.");
+                Console.WriteLine(e.Message);
                 throw;
             }
 

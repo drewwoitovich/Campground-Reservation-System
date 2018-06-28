@@ -6,9 +6,7 @@ using System.Threading.Tasks;
 
 namespace Capstone.DAL
 {
-    class ReadMe
+    class CampgroundSqlDAL
     {
-        // In the DAL folder, create a .cs file for each each DAL
-        // and delete this .cs
     }
 }

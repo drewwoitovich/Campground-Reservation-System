@@ -32,7 +32,9 @@ namespace Capstone
                         break;
 
                     case Command_ViewCampgrounds:
-                        //ViewCampgrounds();
+                        Console.WriteLine("Please enter the name of the park you would like to search: ");
+                        string parkName = Console.ReadLine();
+                        //ViewCampgrounds(parkName);
                         break;
 
                     case Command_Quit:

@@ -8,10 +8,10 @@ using System.Data.SqlClient;
 
 namespace Capstone.DAL
 {
-    class CampgroundSqlDAL
+    public class CampgroundSqlDAL
     {
         private string connectionString;
-        private const string SQL_ViewCampgrounds = "SELECT * FROM campground c RIGHT OUTER JOIN park p ON p.park_id = c.park_id WHERE p.name = '";
+        private const string SQL_ViewCampgrounds = "SELECT * FROM campground c RIGHT OUTER JOIN park p ON p.park_id = c.park_id WHERE p.name = @parkName";
 
         //constructor
         public CampgroundSqlDAL(string databaseConnectionString)
@@ -19,10 +19,8 @@ namespace Capstone.DAL
             connectionString = databaseConnectionString;
         }
 
-        public List<string> ViewCampgrounds()
+        public List<string> ViewCampgrounds(string parkName)
         {
-            Console.WriteLine("Please enter the name of the park you're interested in:");
-            string parkNameInput = Console.ReadLine();
 
             List<string> output = new List<string>();
 
@@ -33,7 +31,7 @@ namespace Capstone.DAL
                     connection.Open();
 
                     SqlCommand cmd = new SqlCommand();
-                    cmd.CommandText = SQL_ViewCampgrounds + parkNameInput + "'";
+                    cmd.Parameters.AddWithValue("@p.name", parkName);
                     cmd.Connection = connection;
 
                     SqlDataReader reader = cmd.ExecuteReader();

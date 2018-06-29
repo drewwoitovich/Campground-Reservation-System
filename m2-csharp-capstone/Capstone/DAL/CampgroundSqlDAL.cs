@@ -11,7 +11,7 @@ namespace Capstone.DAL
     public class CampgroundSqlDAL
     {
         private string connectionString;
-        private const string SQL_ViewCampgrounds = "SELECT * FROM campground c RIGHT OUTER JOIN park p ON p.park_id = c.park_id WHERE p.name = @parkName";
+        private const string SQL_ViewCampgrounds = "SELECT * FROM campground c JOIN park p ON p.park_id = c.park_id WHERE p.park_id = @park_Id";
 
         //constructor
         public CampgroundSqlDAL(string databaseConnectionString)
@@ -19,7 +19,7 @@ namespace Capstone.DAL
             connectionString = databaseConnectionString;
         }
 
-        public List<Campground> ViewCampgrounds(string parkName)
+        public List<Campground> ViewCampgrounds(int parkId)
         {
 
             List<Campground> output = new List<Campground>();
@@ -31,15 +31,18 @@ namespace Capstone.DAL
                     connection.Open();
 
                     SqlCommand cmd = new SqlCommand();
-                    cmd.Parameters.AddWithValue("@p.name", parkName);
+                    cmd.Parameters.AddWithValue("@park_id", parkId);
                     cmd.Connection = connection;
+                    cmd.CommandText = SQL_ViewCampgrounds;
 
                     SqlDataReader reader = cmd.ExecuteReader();
 
                     while (reader.Read())
                     {
                         Campground c = new Campground();
-                        c.CampgroundName = Convert.ToString(reader["campground"]);
+
+                        c.CampgroundName = Convert.ToString(reader["name"]);
+
                         output.Add(c);
                     }
                 }
@@ -48,9 +51,9 @@ namespace Capstone.DAL
             {
                 Console.WriteLine("There was an error.");
                 Console.WriteLine(e.Message);
+                throw;
             }
-
-            output.Sort();
+            
             return output;
         }
     }

@@ -13,6 +13,7 @@ namespace Capstone.DAL
 {
     public class ReservationSqlDAL
     {
+        /*
         private string connectionString;
         private const string SQL_Reservation = "";
 
@@ -20,11 +21,6 @@ namespace Capstone.DAL
         public ReservationSqlDAL(string databaseConnectionString)
         {
             connectionString = databaseConnectionString;
-        }
-
-        public List<Campground> ViewAvailableCampgrounds(string campgroundName, DateTime openDate, DateTime closeDate)
-        {
-
-        }
+        }*/
     }
 }

@@ -16,7 +16,7 @@ namespace Capstone.Models
 
         public override string ToString()
         {
-            return base.ToString();
+            return CampgroundId.ToString().PadRight(3) + CampgroundName.PadRight(5);
         }
     }
 }

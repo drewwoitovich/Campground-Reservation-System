@@ -4,11 +4,27 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Data.SqlClient;
+using Capstone.DAL;
+using Capstone.Models;
+
 
 
 namespace Capstone.DAL
 {
-    class ReservationSqlDAL
+    public class ReservationSqlDAL
     {
+        private string connectionString;
+        private const string SQL_Reservation = "";
+
+        //constructor
+        public ReservationSqlDAL(string databaseConnectionString)
+        {
+            connectionString = databaseConnectionString;
+        }
+
+        public List<Campground> ViewAvailableCampgrounds(string campgroundName, DateTime openDate, DateTime closeDate)
+        {
+
+        }
     }
 }

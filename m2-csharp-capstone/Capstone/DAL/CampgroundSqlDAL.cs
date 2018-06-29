@@ -19,10 +19,10 @@ namespace Capstone.DAL
             connectionString = databaseConnectionString;
         }
 
-        public List<string> ViewCampgrounds(string parkName)
+        public List<Campground> ViewCampgrounds(string parkName)
         {
 
-            List<string> output = new List<string>();
+            List<Campground> output = new List<Campground>();
 
             try
             {
@@ -38,8 +38,9 @@ namespace Capstone.DAL
 
                     while (reader.Read())
                     {
-                        string campground = Convert.ToString(reader["campground"]);
-                        output.Add(campground);
+                        Campground c = new Campground();
+                        c.CampgroundName = Convert.ToString(reader["campground"]);
+                        output.Add(c);
                     }
                 }
             }

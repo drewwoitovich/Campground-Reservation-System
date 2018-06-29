@@ -8,8 +8,11 @@ namespace Capstone.Models
 {
     public class Site
     {
-        public int SiteId { get; set; }
+        
         public int SiteNumber { get; set; }
+        public int MaxOccupancy { get; set; }
+        
+
 
         public override string ToString()
         {

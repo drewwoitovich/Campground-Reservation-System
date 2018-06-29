@@ -16,7 +16,7 @@ namespace Capstone.Models
 
         public override string ToString()
         {
-            return CampgroundId.ToString().PadRight(3) + CampgroundName.PadRight(5);
+            return $"{CampgroundId}      {CampgroundName}            {OpenDate.ToString("MM/dd")}              {CloseDate.ToString("MM/dd")}    {DailyFee}";
         }
     }
 }

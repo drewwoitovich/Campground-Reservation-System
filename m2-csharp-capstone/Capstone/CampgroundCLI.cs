@@ -87,34 +87,29 @@ namespace Capstone
             Console.WriteLine(park.ToStringLong());
 
             Console.WriteLine();
-            SelectCommand(userInput);
+            ParkInterface(userInput);
+            
         }
 
-        private void SelectCommand(int parkNumber)
+        private void ParkInterface(int parkNumber)
         {
             Console.WriteLine("Select a command");
             Console.WriteLine("(1) View Campgrounds");
             Console.WriteLine("(2) Search for a Reservation");
             Console.WriteLine("(3) Return to Main Menu");
 
-            string userInput = Console.ReadLine();
+            int userInput = int.Parse(Console.ReadLine());
 
             switch(userInput)
             {
-                case "1":
-                    CampgroundSqlDAL myDal = new CampgroundSqlDAL(databaseConnectionString);
-                    List<Campground> camps = myDal.ViewCampgrounds(parkNumber);
-                    foreach (Campground camp in camps)
-                    {
-                        Console.WriteLine(camp);
-                    }
-                    Console.WriteLine();
+                case 1:
+                    ViewCampgrounds(parkNumber);
                     break;
 
-                case "2":
+                case 2:
                     break;
 
-                case "3":
+                case 3:
                     RunCLI();
                     break;
 
@@ -124,9 +119,61 @@ namespace Capstone
             }
         }
 
-        private void ViewCampgrounds()
+        private void ReservationInterface(int parkNumber)
         {
-            
+            Console.WriteLine("(1) Search for available reservation");
+            Console.WriteLine("(2) Return to previous screen");
+
+            int userInput = int.Parse(Console.ReadLine());
+
+            switch (userInput)
+            {
+                case 1:
+                    ViewCampgrounds(parkNumber);
+                    SearchForAvailableReservationInterface(parkNumber);
+                    break;
+
+                case 2:
+                    ViewParkInfo();
+                    break;
+
+                default:
+                    Console.WriteLine("Please enter a valid command");
+                    return;
+            }
+        }
+
+        private void SearchForAvailableReservationInterface(int parkNumber)
+        {
+            Console.WriteLine("Which campground (enter 0 to cancel)?");
+            int campgroundSelection = int.Parse(Console.ReadLine());
+            Console.WriteLine("What is the arrival date? __/__/____");
+            DateTime arrivalDate = DateTime.Parse(Console.ReadLine());
+            Console.WriteLine("What is the departure date? __/__/____");
+            DateTime departureDate = DateTime.Parse(Console.ReadLine());
+
+            //SearchForAvailableReservation(campgroundSelection, arrivalDate, departureDate);
+        }
+
+        public void ViewCampgrounds(int parkNumber)
+        {
+            CampgroundSqlDAL myDal = new CampgroundSqlDAL(databaseConnectionString);
+            List<Campground> camps = myDal.ViewCampgrounds(parkNumber);
+
+            Console.WriteLine("Camp ID            Name          Open Date            Close Date           Daily Fee");
+            foreach (Campground camp in camps)
+            {
+                Console.WriteLine(camp);
+            }
+            Console.WriteLine();
+            //SearchForAvailableReservationInterface(parkNumber);
+            ReservationInterface(parkNumber);
+        }
+        public void SearchForAvailableReservation(int campgroundSelection, DateTime arrivalDate, DateTime departureDate)
+        {
+            CampgroundSqlDAL myDAL = new CampgroundSqlDAL(databaseConnectionString);
+            List<Campground> availableCampgrounds = new List<Campground>();
+
         }
     }
 }

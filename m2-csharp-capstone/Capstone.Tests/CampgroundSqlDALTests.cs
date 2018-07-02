@@ -37,15 +37,15 @@ namespace Capstone.Tests
 
                     conn.Open();
 
-                    //Insert a Dummy Record for Country                
-                    cmd = new SqlCommand("INSERT INTO Campground VALUES (50, )", conn);
+                    //Insert a Dummy Record for Park                
+                    cmd = new SqlCommand("INSERT INTO park VALUES (50, 'Alum Creek State Park', 'Lewis Center OH', '1970-01-01', 450, 12000, 'I just made up a bunch of values for this state park');", conn);
                     cmd.ExecuteNonQuery();
 
                     //Insert a Dummy Record for City that belongs to 'ABC Country'
                     //If we want to the new id of the record inserted we can use
                     // SELECT CAST(SCOPE_IDENTITY() as int) as a work-around
                     // This will get the newest identity value generated for the record most recently inserted
-                    cmd = new SqlCommand("INSERT INTO City VALUES ('Test City', 'ABC', 'Test District', 1); SELECT CAST(SCOPE_IDENTITY() as int);", conn);
+                    cmd = new SqlCommand("INSERT INTO campground VALUES (50, 50, 'Alum Creek Campground', 3, 8, 10.00);", conn);
                     cityId = (int)cmd.ExecuteScalar();
                 }
             }
@@ -58,8 +58,17 @@ namespace Capstone.Tests
             }
 
             [TestMethod]
-            public void ViewCampgrounds()
+            public void ViewCampgroundsTest()
             {
+                // Arrange 
+                CampgroundSqlDAL campgroundDal = new CampgroundSqlDAL(connectionString);
+
+                //Act
+                List<Campground> campgrounds = campgroundDal.ViewCampgrounds(50); //<-- use our dummy country 
+
+                //Assert
+                Assert.AreEqual(1, campgrounds.Count);               // We should only have one city in ABC country
+                Assert.AreEqual(50, campgrounds[0].CampgroundId);      // We created the city ahead of time and know the id to check for
             }
         }
     }

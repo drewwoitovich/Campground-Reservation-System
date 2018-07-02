@@ -1,3 +1,29 @@
+
+select * 
+from campground c
+right outer join park p on p.park_id =  c.park_id
+where p.name = 'arches'
+
+select * from reservation
+
+select r.site_id from reservation r left outer join site s on r.site_id = s.site_id 
+where '2018-06-27' !> r.from_date AND '2018-06-15' !< r.to_date
+
+DECLARE @requested_start date = '6/27/18';
+DECLARE @requested_end date = '6/29/18';
+DECLARE @campground_id int = 1;
+
+select s.site_id, s.max_occupancy, c.daily_fee
+FROM site s
+join campground c on s.campground_id = c.campground_id
+where s.campground_id = @campground_id
+AND s.site_id NOT IN (SELECT site_id from reservation
+WHERE @requested_start < to_date
+AND @requested_end > from_date);
+
+
+
+
 DROP TABLE reservation;
 DROP TABLE site;
 DROP TABLE campground;

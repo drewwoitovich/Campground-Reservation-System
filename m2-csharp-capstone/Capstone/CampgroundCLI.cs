@@ -107,6 +107,7 @@ namespace Capstone
                     break;
 
                 case 2:
+                    SearchForAvailableReservationInterface(parkNumber);
                     break;
 
                 case 3:
@@ -152,7 +153,7 @@ namespace Capstone
             Console.WriteLine("What is the departure date? __/__/____");
             DateTime departureDate = DateTime.Parse(Console.ReadLine());
 
-            //SearchForAvailableReservation(campgroundSelection, arrivalDate, departureDate);
+            SearchForAvailableReservation(campgroundSelection, arrivalDate, departureDate);
         }
 
         public void ViewCampgrounds(int parkNumber)
@@ -166,13 +167,20 @@ namespace Capstone
                 Console.WriteLine(camp);
             }
             Console.WriteLine();
-            //SearchForAvailableReservationInterface(parkNumber);
-            ReservationInterface(parkNumber);
+            
+            //ReservationInterface(parkNumber);
         }
         public void SearchForAvailableReservation(int campgroundSelection, DateTime arrivalDate, DateTime departureDate)
         {
             CampgroundSqlDAL myDAL = new CampgroundSqlDAL(databaseConnectionString);
             List<Campground> availableCampgrounds = new List<Campground>();
+
+
+            foreach (Campground camp in availableCampgrounds)
+            {
+                Console.WriteLine(camp);
+            }
+            Console.WriteLine();
 
         }
     }

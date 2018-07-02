@@ -104,6 +104,7 @@ namespace Capstone
             {
                 case 1:
                     ViewCampgrounds(parkNumber);
+                    ParkInterface(parkNumber);
                     break;
 
                 case 2:
@@ -135,7 +136,7 @@ namespace Capstone
                     break;
 
                 case 2:
-                    ViewParkInfo();
+                    ParkInterface(parkNumber);
                     break;
 
                 default:
@@ -146,18 +147,27 @@ namespace Capstone
 
         private void SearchForAvailableReservationInterface(int parkNumber)
         {
+            ViewCampgrounds(parkNumber);
             Console.WriteLine("Which campground (enter 0 to cancel)?");
             int campgroundSelection = int.Parse(Console.ReadLine());
-            Console.WriteLine("What is the arrival date? __/__/____");
-            DateTime arrivalDate = DateTime.Parse(Console.ReadLine());
-            Console.WriteLine("What is the departure date? __/__/____");
-            DateTime departureDate = DateTime.Parse(Console.ReadLine());
+            if (campgroundSelection == 0)
+            {
+                ReservationInterface(parkNumber);
+            }
+            else
+            {
+                Console.WriteLine("What is the arrival date? __/__/____");
+                DateTime arrivalDate = DateTime.Parse(Console.ReadLine());
+                Console.WriteLine("What is the departure date? __/__/____");
+                DateTime departureDate = DateTime.Parse(Console.ReadLine());
 
-            SearchForAvailableReservation(campgroundSelection, arrivalDate, departureDate);
+                SearchForAvailableReservation(campgroundSelection, arrivalDate, departureDate);
+            }
         }
 
         public void ViewCampgrounds(int parkNumber)
         {
+
             CampgroundSqlDAL myDal = new CampgroundSqlDAL(databaseConnectionString);
             List<Campground> camps = myDal.ViewCampgrounds(parkNumber);
 
@@ -168,22 +178,42 @@ namespace Capstone
             }
             Console.WriteLine();
             
-            //ReservationInterface(parkNumber);
+            //ReservationInterface(parkNumber);*/
         }
         public void SearchForAvailableReservation(int campgroundSelection, DateTime arrivalDate, DateTime departureDate)
         {
-            CampgroundSqlDAL myDAL = new CampgroundSqlDAL(databaseConnectionString);
-            List<Campground> availableCampgrounds = new List<Campground>();
+            ReservationSqlDAL myDAL = new ReservationSqlDAL(databaseConnectionString);
+            List<Site> availableSites = myDAL.SearchForAvailableReservation(campgroundSelection, arrivalDate, departureDate);
 
-
-            foreach (Campground camp in availableCampgrounds)
+            Console.WriteLine("Site ID    Max Occupancy");
+            foreach (Site site in availableSites)
             {
-                Console.WriteLine(camp);
+                Console.WriteLine(site);
             }
             Console.WriteLine();
-
+            ConfirmReservation(campgroundSelection, arrivalDate, departureDate);
         }
 
+        public void ConfirmReservation(int campgroundSelection, DateTime arrivalDate, DateTime departureDate)
+        {
+            Console.WriteLine("Which site should be reserved (0 to cancel)?");
+            int siteSelection = int.Parse(Console.ReadLine());
+            if (siteSelection == 0)
+            {
+                ViewAvailableParks();
+            }
+            else
+            {
+                Console.WriteLine("What name should the reservation be made under?");
+                string reservationName = Console.ReadLine();
+
+                ReservationSqlDAL myDAL = new ReservationSqlDAL(databaseConnectionString);
+                Reservation newReservation = new Reservation();
+
+
+                myDAL.MakeReservation(siteSelection, reservationName, arrivalDate, departureDate);
+            }
+        }
         
     }
 }

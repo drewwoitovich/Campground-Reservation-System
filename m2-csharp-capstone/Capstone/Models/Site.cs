@@ -8,15 +8,12 @@ namespace Capstone.Models
 {
     public class Site
     {
-        
         public int SiteNumber { get; set; }
         public int MaxOccupancy { get; set; }
         
-
-
         public override string ToString()
         {
-            return base.ToString();
+            return SiteNumber.ToString().PadRight(15) + MaxOccupancy.ToString();
         }
     }
 }

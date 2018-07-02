@@ -16,6 +16,7 @@ namespace Capstone.DAL
 
         private string connectionString;
         private const string SQL_ReservationSearch = "select s.site_id, s.max_occupancy, c.daily_fee FROM site s join campground c on s.campground_id = c.campground_id where s.campground_id = @campground_id AND s.site_id NOT IN (SELECT site_id from reservation WHERE @requested_start<to_date AND @requested_end> from_date);";
+        private const string SQL_MakeReservation = @"insert into reservation (site_id, name, from_date, to_date) values (@site_id, @name, @from_date, @to_date);";
 
         //constructor
         public ReservationSqlDAL(string databaseConnectionString)
@@ -46,7 +47,7 @@ namespace Capstone.DAL
                     {
                         Site s = new Site();
 
-                        s.SiteNumber = Convert.ToInt32(reader["site_number"]);
+                        s.SiteNumber = Convert.ToInt32(reader["site_id"]);
                         s.MaxOccupancy = Convert.ToInt32(reader["max_occupancy"]);
 
                         output.Add(s);
@@ -59,7 +60,49 @@ namespace Capstone.DAL
                 Console.WriteLine(e.Message);
                 throw;
             }
+            
             return output;
+        }
+
+        public bool MakeReservation(int siteID, string name, DateTime arrivalDate, DateTime departureDate)
+        {
+            bool result = false;
+            Reservation newReservation = new Reservation();
+
+            try
+            {
+                using (SqlConnection conn = new SqlConnection(connectionString))
+                {
+                    conn.Open();
+
+                    SqlCommand cmd = new SqlCommand(SQL_MakeReservation, conn);
+
+                    
+                    cmd.Parameters.AddWithValue("@site_id", siteID);
+                    cmd.Parameters.AddWithValue("@name", name);
+                    cmd.Parameters.AddWithValue("@from_date", arrivalDate);
+                    cmd.Parameters.AddWithValue("@to_date", departureDate);
+
+                    int count = cmd.ExecuteNonQuery();
+
+                    if (count == 1)
+                    {
+                        result = true;
+                        Console.WriteLine($"The reservation has been made and the confirmation id is {newReservation.ReservationId}");
+                    }
+                    else
+                    {
+                        Console.WriteLine("There was an error making this reservation");
+                    }
+                }
+            }
+            catch (SqlException ex)
+            {
+                Console.WriteLine("There was an error with the program");
+                Console.WriteLine(ex.Message);
+                throw;
+            }
+            return result;
         }
     }
 }

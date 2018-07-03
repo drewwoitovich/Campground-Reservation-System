@@ -20,7 +20,7 @@ namespace Capstone.Tests
 
         private TransactionScope tran;      //<-- used to begin a transaction during initialize and rollback during cleanup
         private string connectionString = ConfigurationManager.ConnectionStrings["CapstoneDatabase"].ConnectionString;
-        private int parkCount = 0;                 //<-- used to hold the city id of the row created for our test
+        private int parkID;                 
 
 
         // Set up the database before each test        
@@ -38,8 +38,9 @@ namespace Capstone.Tests
                 conn.Open();
 
                 //Insert a Dummy Record for Park                
-                cmd = new SqlCommand("INSERT INTO park VALUES (50, 'Alum Creek State Park', 'Lewis Center OH', '1970-01-01', 450, 12000, 'I just made up a bunch of values for this state park');", conn);
-                cmd.ExecuteNonQuery();
+                cmd = new SqlCommand("INSERT INTO park VALUES (50, 'Alum Creek State Park', 'Lewis Center OH', '1970-01-01', 450, 12000, 'I just made up a bunch of values for this state park'); SELECT SCOPE_IDENTITY() as int", conn);
+                parkID = Convert.ToInt32(cmd.ExecuteScalar());
+                
 
 
             }
@@ -63,7 +64,7 @@ namespace Capstone.Tests
 
             //Assert
             Assert.IsNotNull(parkSqlDal);
-            Assert.AreEqual(parkCount + 1, parks.Count);
+            Assert.AreEqual(parkID, parks[0].ParkId);
         }
     }
 }

@@ -88,7 +88,7 @@ namespace Capstone.DAL
                     if (count == 1)
                     {
                         result = true;
-                        Console.WriteLine($"The reservation has been made and the confirmation id is {newReservation.ReservationId}");
+                        Console.WriteLine($"The reservation has been made and the confirmation ID is {newReservation.ReservationId}");
                     }
                     else
                     {

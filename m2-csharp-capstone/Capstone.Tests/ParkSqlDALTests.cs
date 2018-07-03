@@ -38,11 +38,8 @@ namespace Capstone.Tests
                 conn.Open();
 
                 //Insert a Dummy Record for Park                
-                cmd = new SqlCommand("INSERT INTO park VALUES (50, 'Alum Creek State Park', 'Lewis Center OH', '1970-01-01', 450, 12000, 'I just made up a bunch of values for this state park'); SELECT SCOPE_IDENTITY() as int", conn);
+                cmd = new SqlCommand("INSERT INTO park VALUES ('Alum Creek State Park', 'Lewis Center OH', '1970-01-01', 450, 12000, 'I just made up a bunch of values for this state park'); SELECT SCOPE_IDENTITY() as int", conn);
                 parkID = Convert.ToInt32(cmd.ExecuteScalar());
-                
-
-
             }
         }
 
@@ -64,7 +61,7 @@ namespace Capstone.Tests
 
             //Assert
             Assert.IsNotNull(parkSqlDal);
-            Assert.AreEqual(parkID, parks[0].ParkId);
+            Assert.AreEqual(parkID, parks[parks.Count - 1].ParkId);
         }
     }
 }

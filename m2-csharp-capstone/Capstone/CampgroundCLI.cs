@@ -19,6 +19,7 @@ namespace Capstone
         {
             databaseConnectionString = ConfigurationManager.ConnectionStrings["CapstoneDatabase"].ConnectionString;
         }
+
         public void RunCLI()
         {
             PrintMenu();
@@ -171,7 +172,8 @@ namespace Capstone
             CampgroundSqlDAL myDal = new CampgroundSqlDAL(databaseConnectionString);
             List<Campground> camps = myDal.ViewCampgrounds(parkNumber);
 
-            Console.WriteLine("Camp ID            Name          Open Date            Close Date           Daily Fee");
+            Console.WriteLine("Camp ID            Name                                     Open Month        Close Month           Daily Fee");
+            Console.WriteLine("------------------------------------------------------------------------------------------------------------------");
             foreach (Campground camp in camps)
             {
                 Console.WriteLine(camp);
@@ -180,6 +182,7 @@ namespace Capstone
             
             //ReservationInterface(parkNumber);*/
         }
+
         public void SearchForAvailableReservation(int campgroundSelection, DateTime arrivalDate, DateTime departureDate)
         {
             ReservationSqlDAL myDAL = new ReservationSqlDAL(databaseConnectionString);

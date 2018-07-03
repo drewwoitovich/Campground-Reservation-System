@@ -18,7 +18,7 @@ namespace Capstone.Tests
 
         private TransactionScope tran;      //<-- used to begin a transaction during initialize and rollback during cleanup
         private string connectionString = ConfigurationManager.ConnectionStrings["CapstoneDatabase"].ConnectionString;
-        private int campgroundID;                 //<-- used to hold the city id of the row created for our test
+        private int campgroundID;                 //<-- used to hold the campgroundID of the row created for our test
 
 
         // Set up the database before each test        
@@ -62,7 +62,7 @@ namespace Capstone.Tests
             CampgroundSqlDAL campgroundDal = new CampgroundSqlDAL(connectionString);
 
             //Act
-            List<Campground> campgrounds = campgroundDal.ViewCampgrounds(50); //<-- use our dummy country 
+            List<Campground> campgrounds = campgroundDal.ViewCampgrounds(50); //<-- use our dummy park 
 
             //Assert
             Assert.AreEqual(1, campgrounds.Count);               // We should only have one campground in Alum Creek

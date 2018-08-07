@@ -20,6 +20,7 @@ namespace Capstone.DAL
             connectionString = databaseconnectionString;
         }
 
+        // Returns a list of all parks in the database table "park"
         public List<Park> ViewAvailableParks()
         {
             List<Park> output = new List<Park>();
@@ -62,6 +63,7 @@ namespace Capstone.DAL
             return output;
         }
 
+        // Returns all details of a given park
         public Park ViewParkInfo(int parkId)
         {
             Park p = new Park();

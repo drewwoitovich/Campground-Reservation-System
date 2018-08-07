@@ -19,6 +19,7 @@ namespace Capstone.DAL
             connectionString = databaseConnectionString;
         }
 
+        // Returns a list of every Campround for a given park
         public List<Campground> ViewCampgrounds(int parkId)
         {
 

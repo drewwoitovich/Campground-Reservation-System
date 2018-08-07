@@ -53,12 +53,12 @@ namespace Capstone.Tests
                 campgroundID = Convert.ToInt32(cmd.ExecuteScalar());
               
 
-                cmd = new SqlCommand($"INSERT INTO site VALUES (@site_id, {campgroundID}, 1, 5, 0, 0, 0); SELECT SCOPE_IDENTITY();", conn);
-                cmd.Parameters.AddWithValue("@site_id", siteID);
+                cmd = new SqlCommand($"INSERT INTO site VALUES ("+campgroundID+", 1, 5, 0, 0, 0); SELECT SCOPE_IDENTITY();", conn);
+                
                 siteID = Convert.ToInt32(cmd.ExecuteScalar());
 
-                cmd = new SqlCommand($"INSERT INTO reservation VALUES (@reservation_id, {siteID}, 'Drew', {startDate}, {endDate}, '07/03/2018');", conn);
-                cmd.Parameters.AddWithValue("@reservation_id", reservationID);
+                cmd = new SqlCommand($"INSERT INTO reservation VALUES ("+siteID+", 'Drew', "+startDate+", "+endDate+", '07/03/2018');", conn);
+                
                 reservationID = Convert.ToInt32(cmd.ExecuteScalar());
                 
             }

@@ -15,11 +15,13 @@ namespace Capstone
         const string Command_Quit = "q";
         private string databaseConnectionString = "";
 
+        // Establishes database connection
         public CampgroundCLI()
         {
             databaseConnectionString = ConfigurationManager.ConnectionStrings["CapstoneDatabase"].ConnectionString;
         }
 
+        // Starts the program
         public void RunCLI()
         {
             PrintMenu();
@@ -47,6 +49,7 @@ namespace Capstone
             }
         }
 
+        // First menu that's displayed
         private void PrintMenu()
         {
             Console.WriteLine("Main Menu");
@@ -55,6 +58,7 @@ namespace Capstone
             Console.WriteLine("(q) Quit");
         }
 
+        // Calls the DAO and gives options to user on what to do next
         private void ViewAvailableParks()
         {
             ParkSqlDAL parkDal = new ParkSqlDAL(databaseConnectionString);
@@ -74,6 +78,7 @@ namespace Capstone
             ViewParkInfo();
         }
 
+        // Allows user to select a certain park in order to view the details of that park
         private void ViewParkInfo()
         {
             ParkSqlDAL parkDal = new ParkSqlDAL(databaseConnectionString);
@@ -92,6 +97,8 @@ namespace Capstone
             
         }
 
+        // Next menu once a park is selected. Allows user to view campgrounds within that park, search for 
+        // available reservations, or return to the main menu
         private void ParkInterface(int parkNumber)
         {
             Console.WriteLine("Select a command");
@@ -122,6 +129,7 @@ namespace Capstone
             }
         }
 
+        // Called when a user chooses to search for a reservation
         private void ReservationInterface(int parkNumber)
         {
             Console.WriteLine("(1) Search for available reservation");
@@ -146,6 +154,7 @@ namespace Capstone
             }
         }
 
+        // Prompts the user to select a campsite, start date, and end date in order to search for available campsites
         private void SearchForAvailableReservationInterface(int parkNumber)
         {
             ViewCampgrounds(parkNumber);
@@ -166,6 +175,7 @@ namespace Capstone
             }
         }
 
+        // Uses a DAO to view a list of all campgrounds within a given park
         public void ViewCampgrounds(int parkNumber)
         {
 
@@ -179,10 +189,11 @@ namespace Capstone
                 Console.WriteLine(camp);
             }
             Console.WriteLine();
-            
-            //ReservationInterface(parkNumber);*/
         }
 
+        // Called after user chooses a campsite, start date, and end date in order to search for available reservations.
+        // Uses a DAO to search the database searching for available sites within the given dates and returns a list of
+        // those that are available
         public void SearchForAvailableReservation(int campgroundSelection, DateTime arrivalDate, DateTime departureDate)
         {
             ReservationSqlDAL myDAL = new ReservationSqlDAL(databaseConnectionString);
@@ -197,6 +208,10 @@ namespace Capstone
             ConfirmReservation(campgroundSelection, arrivalDate, departureDate);
         }
 
+        // Called after viewing a list of available (unreserved) sites. Prompts the user to select a which available
+        // campsite they'd like to make a reservation for. Prompts the user to give a name for the reservation. Attempts
+        // to create the reservation and update the database. If successful, it will give return their reservation
+        // ID as confirmation
         public void ConfirmReservation(int campgroundSelection, DateTime arrivalDate, DateTime departureDate)
         {
             Console.WriteLine("Which site should be reserved (0 to cancel)?");

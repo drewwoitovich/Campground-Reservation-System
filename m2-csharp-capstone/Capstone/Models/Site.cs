@@ -11,6 +11,7 @@ namespace Capstone.Models
         public int SiteNumber { get; set; }
         public int MaxOccupancy { get; set; }
         
+        // Formats site information to look nice
         public override string ToString()
         {
             return SiteNumber.ToString().PadRight(15) + MaxOccupancy.ToString();
